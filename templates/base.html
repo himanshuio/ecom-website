@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHouse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="menu-toggle" onclick="toggleDrawer()">☰</div>
+        <div class="main-title-box">
+            <h1 class="main-title-text">ShopHouse</h1>
+        </div>
+        <div class="nav-links">
+            {% if session.get('user_logged_in') %}
+                <!-- Display User's Avatar and Cart Link for Logged-In Users -->
+                <div class="avatar">
+                    {{ session.get('user_first_name')[0] }}{{ session.get('user_last_name')[0] }}
+                </div>
+                <a href="{{ url_for('logout') }}">Logout</a>
+
+                <!-- Cart Icon for Logged-In Users -->
+                <a href="{{ url_for('cart') }}" class="cart-link">
+                    <img src="{{ url_for('static', filename='shopping-basket.png') }}" alt="Cart" class="cart-icon">
+                    <span class="cart-count" id="cart-count" 
+                        {% if cart_quantity == 0 %} style="display: none;" {% endif %}>
+                        {{ cart_quantity }}
+                    </span>
+                </a>
+            {% elif request.endpoint == 'index' %}
+                <!-- Show Login and Signup Links Only on Index Page -->
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Signup</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Add Cart Count Update Script -->
+    <script>
+        // Ensure cart count is visible and updated across pages
+   
+
+        // Drawer toggle for mobile menu
+        function toggleDrawer() {
+            var drawer = document.getElementById("drawer");
+            drawer.classList.toggle("active");
+        }
+
+        // Function to update cart count across different pages
+        function updateCartCount(cartQuantity) {
+            // Update the cart count displayed on the current page
+            $('#cart-count').text(cartQuantity);
+            if (cartQuantity > 0) {
+                $('#cart-count').show();
+            } else {
+                $('#cart-count').hide();
+            }
+            
+            // Update cart count on the navbar (if present on the page)
+            $('.cart-count').text(cartQuantity);
+            if (cartQuantity > 0) {
+                $('.cart-count').show();
+            } else {
+                $('.cart-count').hide();
+            }
+        }
+    </script>
+</body>
+</html>

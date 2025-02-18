@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="menu-toggle" onclick="toggleDrawer()">☰</div>
+        <div class="main-title-box">
+            <h1 class="main-title-text">ShopHouse</h1>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('cart') }}" class="cart-link">
+                <img src="{{ url_for('static', filename='shopping-basket.png') }}" alt="Cart" class="cart-icon">
+                <span class="cart-count" id="cart-count" {% if cart_quantity == 0 %} style="display: none;" {% endif %}>
+                    {{ cart_quantity }}
+                </span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Flash Messages Here -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Drawer Menu -->
+    <div class="drawer" id="drawer">
+        <ul>
+            <div class="menu-toggle1" onclick="toggleDrawer()">✖</div>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="cart-page-container">
+        <!-- Flexbox Container for Cart Items and Order Form -->
+        <div class="cart-content-container">
+            <!-- Left Container: Cart Items -->
+            <div class="cart-items-section">
+                <h1>Your Cart</h1>
+                {% if cart_items %}
+                    <div class="cart-items-list">
+                        {% for item in cart_items %}
+                        <div class="cart-item">
+                            <img src="{{ item.image }}" alt="{{ item.name }}">
+                            <h2>{{ item.name }}</h2>
+                            <p>Price: ${{ item.price }}</p>
+                            <div class="quantity-controls">
+     
+                                </form><form action="{{ url_for('decrease_quantity', product_id=item.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="quantity-btn">-</button>
+                                </form>
+                                
+                                <span>{{ item.quantity }}</span>
+                                <form action="{{ url_for('increase_quantity', product_id=item.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="quantity-btn">+</button>
+                                </form>
+                            </div>
+                            <p>Total: ${{ item.total_price }}</p>
+                            <form action="{{ url_for('remove_from_cart', product_id=item.id) }}" method="POST">
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <center>
+                        <h1 class="main-title-text">Total Price: ${{ total_price }}</h1>
+                    </center>
+                {% else %}
+                    <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+
+            <!-- Right Container: Order Form (only visible if there are items in the cart) -->
+            {% if cart_items %}
+            <div class="order-details-section">
+                <h2>Order Details</h2>
+                <form method="POST" action="{{ url_for('submit_order') }}">
+                    <div class="form-group">
+                        <label for="full_name" class="one">Full Name:</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Shipping Address:</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Additional Notes:</label>
+                        <textarea id="notes" name="notes" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn order-btn">Place Order</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{{ url_for('index') }}">Continue Shopping</a>
+    <footer class="footer">
+        <p>&copy; {{ current_year }} ShopHouse. All rights reserved.</p>
+    </footer>
+    <script>
+         document.querySelector('.footer p').innerHTML = `&copy; ${new Date().getFullYear()} ShopHouse. All rights reserved.`;
+        function toggleDrawer() {
+            var drawer = document.getElementById("drawer");
+            drawer.classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

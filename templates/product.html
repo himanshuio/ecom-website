@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="menu-toggle" onclick="toggleDrawer()">☰</div>
+        <div class="main-title-box">
+            <h1 class="main-title-text">ShopHouse</h1>
+        </div>
+        <div class="nav-links">
+            <!-- Cart Icon for Logged-In Users -->
+            <a href="{{ url_for('cart') }}" class="cart-link">
+                <img src="{{ url_for('static', filename='shopping-basket.png') }}" alt="Cart" class="cart-icon">
+                <span class="cart-count" id="cart-count" {% if cart_quantity == 0 %} style="display: none;" {% endif %}>
+                    {{ cart_quantity }}
+                </span>
+            </a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        
+    </nav>
+    
+    <!-- Drawer Menu -->
+    <div class="drawer" id="drawer">
+        <ul>
+            <div class="menu-toggle1" onclick="toggleDrawer()">✖</div>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div> <!-- Product Detail Container -->
+    <div class="product-detail-wrapper">
+        <div class="product-detail-container">
+            <div class="product-info">
+                <h1 class="product-title">{{ product.name }}</h1>
+                <p class="product-description">{{ product.description }}</p>
+                <p class="product-price">Price: ${{ product.price }}</p>
+                <div class="button-group">
+                    <!-- Add to Cart Button -->
+                    <button class="add2cart" type="button" onclick="addToCart(event, '{{ product.id }}')">Add to Cart</button>
+                    <!-- Buy Now Button -->
+                    <button class="buy-btn" type="button" onclick="buyNow(event)">Buy Now</button>
+                </div>
+            </div>
+            <div class="product-image-preview">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+            </div>
+        </div>
+    </div><footer class="footer">
+        <p>&copy; {{ current_year }} ShopHouse. All rights reserved.</p>
+    </footer>
+    <script>
+        // Retrieve the authentication status from the hidden div
+        document.querySelector('.footer p').innerHTML = `&copy; ${new Date().getFullYear()} ShopHouse. All rights reserved.`;
+        // Route to Product Detail Page on Container Tap
+        function redirectToProduct(productId) {
+            if (isAuthenticated) {
+                window.location.href = `/product/${productId}`;
+            } else {
+                alert("Please log in first to view the product details.");
+                window.location.href = "/login";  // Redirect to login page
+            }
+        }
+    
+        // Route to Cart Page on Buy Button Tap
+        function buyNow(event) {
+            event.stopPropagation(); // Prevent triggering container click
+            if (isAuthenticated) {
+                window.location.href = '/cart';
+            } else {
+                alert("Please log in first to proceed with the purchase.");
+                window.location.href = "/login";  // Redirect to login page
+            }
+        }
+    
+        // Increase Cart Number on Add to Cart Button Tap
+        function addToCart(event, productId) {
+            event.stopPropagation(); // Prevent triggering container click
+            if (isAuthenticated) {
+                $.post(`/add_to_cart/${productId}`, function(data) {
+                    if (data.success) {
+                        if (data.cart_quantity > 0) {
+                            $('#cart-count').text(data.cart_quantity).show();
+                        } else {
+                            $('#cart-count').hide();
+                        }
+                    }
+                });
+            } else {
+                alert("Please log in first to add items to the cart.");
+                window.location.href = "/login";  // Redirect to login page
+            }
+        }     // Drawer toggle
+        function toggleDrawer() {
+            var drawer = document.getElementById("drawer");
+            drawer.classList.toggle("active");
+        }
+    </script>
+</body>
+</html>
