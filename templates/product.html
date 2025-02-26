@@ -49,14 +49,16 @@
                     <!-- Buy Now Button -->
                     <button class="buy-btn" type="button" onclick="buyNow(event)">Buy Now</button>
                 </div>
-            </div>
+            </div><br>
+            <br>
             <div class="product-image-preview">
                 <img src="{{ product.image }}" alt="{{ product.name }}">
             </div>
         </div>
-    </div><footer class="footer">
+    </div>
+   <div class = "bottom"><footer class="footer">
         <p>&copy; {{ current_year }} ShopHouse. All rights reserved.</p>
-    </footer>
+    </footer></div> 
     <script>
         // Retrieve the authentication status from the hidden div
         document.querySelector('.footer p').innerHTML = `&copy; ${new Date().getFullYear()} ShopHouse. All rights reserved.`;

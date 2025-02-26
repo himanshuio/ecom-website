@@ -2,11 +2,16 @@ from flask import Flask, render_template, session, redirect, url_for, request, j
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://database_example_1oys_user:hWVuGNzLGF0CESWaoDzsYTs9vKGNTH9a@dpg-cuqdh456l47c73blg5q0-a.oregon-postgres.render.com/database_example_1oys'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -106,66 +111,76 @@ def checkout():
 products = [
     {
         'id': 1,
-        'name': 'Product 1',
-        'price': 19.99,
-        'image': "https://upload.wikimedia.org/wikipedia/commons/1/17/2014_0531_Cr%C3%A8me_br%C3%BBl%C3%A9e_Doi_Mae_Salong_%28cropped%29.jpg"
+        'name': 'Manga Miniature - Naruto',
+        'price': 24.99,
+        'image': "https://rukminim2.flixcart.com/image/850/1000/ku5ufm80/action-figure/v/d/r/3-naruto-action-figure-miniature-doll-toy-figure-limited-edition-original-imag7cbgkhcd3zmm.jpeg?q=20&crop=false",
+        'description': "Naruto Uzumaki, a mischievous ninja, dreams of becoming Hokage, the strongest ninja leader. With the Nine-Tails Fox sealed inside him, he faces rejection but never gives up. Join him on his journey filled with friendships, epic battles, and self-discovery."
     },
     {
         'id': 2,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://i1.wp.com/www.bharatzkitchen.com/wp-content/uploads/2020/12/EGG-BHAJI-BIRYANI-.jpg?fit=1200%2C675&ssl=1"
-    }, 
-    {
-        'id': 3,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://www.nehascookbook.com/wp-content/uploads/2022/10/Paneer-bhurji-WS-500x500.jpg"
-    },
-    {
-        'id': 1,
-        'name': 'Product 1',
+        'name': 'One Piece - Volume 1',
         'price': 19.99,
-        'image': "https://upload.wikimedia.org/wikipedia/commons/1/17/2014_0531_Cr%C3%A8me_br%C3%BBl%C3%A9e_Doi_Mae_Salong_%28cropped%29.jpg"
+        'image': "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p186423_b_v8_ae.jpg",
+        'description': "Monkey D. Luffy sets sail on an adventure to find the legendary One Piece and become the Pirate King. With his rubber-like powers and a crew of misfits, he faces dangerous foes, uncovering secrets of the Grand Line in this thrilling voyage."
     },
     {
-        'id': 2,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://i1.wp.com/www.bharatzkitchen.com/wp-content/uploads/2020/12/EGG-BHAJI-BIRYANI-.jpg?fit=1200%2C675&ssl=1"
-    }, 
-    {
         'id': 3,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://www.nehascookbook.com/wp-content/uploads/2022/10/Paneer-bhurji-WS-500x500.jpg"
-    },{
-        'id': 1,
-        'name': 'Product 1',
-        'price': 19.99,
-        'image': "https://upload.wikimedia.org/wikipedia/commons/1/17/2014_0531_Cr%C3%A8me_br%C3%BBl%C3%A9e_Doi_Mae_Salong_%28cropped%29.jpg"
+        'name': 'Dragon Ball Z - Volume 1',
+        'price': 22.99,
+        'image': "https://m.media-amazon.com/images/I/81Lc+Yln3gL._AC_UF1000,1000_QL80_.jpg",
+        'description': "Son Goku, a martial artist with a monkey tail, embarks on a quest to collect the mystical Dragon Balls. Along the way, he trains under masters, fights powerful warriors, and protects Earth from alien invaders and deadly threats."
     },
     {
-        'id': 2,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://i1.wp.com/www.bharatzkitchen.com/wp-content/uploads/2020/12/EGG-BHAJI-BIRYANI-.jpg?fit=1200%2C675&ssl=1"
-    }, 
-    {
-        'id': 3,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://www.nehascookbook.com/wp-content/uploads/2022/10/Paneer-bhurji-WS-500x500.jpg"
+        'id': 4,
+        'name': 'Attack on Titan - Volume 1',
+        'price': 21.99,
+        'image': "https://m.media-amazon.com/images/I/81qPzeEO5IL.jpg",
+        'description': "Humanity's last survivors live behind massive walls, fearing monstrous Titans that roam outside. Eren Yeager, driven by vengeance, joins the military to fight these creatures, uncovering dark secrets about the Titans and their origins."
     },
-      {
-        'id': 3,
-        'name': 'Product 2',
-        'price': 29.99,
-        'image': "https://www.nehascookbook.com/wp-content/uploads/2022/10/Paneer-bhurji-WS-500x500.jpg"
+    {
+        'id': 5,
+        'name': 'Demon Slayer - Volume 1',
+        'price': 20.99,
+        'image': "https://m.media-amazon.com/images/I/81DjuU26RrL.jpg" ,
+        'description': "Tanjiro Kamado’s peaceful life shatters when his family is slaughtered by demons, leaving only his sister Nezuko, who has turned into one. Determined to save her, he trains as a Demon Slayer, facing deadly demons and uncovering hidden mysteries."
+    },
+    {
+        'id': 6,
+        'name': 'Tokyo Ghoul - Volume 1',
+        'price': 18.99,
+        'image': "https://m.media-amazon.com/images/I/71D7jILMozL.jpg",
+        'description': "Ken Kaneki, an ordinary student, survives a brutal attack only to find himself transformed into a half-ghoul. Now forced to consume human flesh, he struggles between his humanity and monster instincts while navigating a dangerous underground world."
+    },
+    {
+        'id': 7,
+        'name': 'Death Note - Volume 1',
+        'price': 23.99,
+        'image': "https://upload.wikimedia.org/wikipedia/en/6/6f/Death_Note_Vol_1.jpg",
+        'description': "Light Yagami, a brilliant student, finds a mysterious Death Note that allows him to kill anyone by writing their name. As he takes justice into his own hands, a cat-and-mouse game begins with the genius detective L, testing the limits of morality."
+    },
+    {
+        'id': 8,
+        'name': 'Jujutsu Kaisen - Volume 1',
+        'price': 22.49,
+        'image': "https://m.media-amazon.com/images/I/81XO20bHFjL.jpg",
+        'description': "Yuji Itadori, a high schooler with extraordinary strength, eats a cursed object and becomes the host of a powerful demon. Now a part of the Jujutsu Sorcerers, he must fight monstrous curses and uncover the dark mysteries behind his new powers."
+    },
+    {
+        'id': 9,
+        'name': 'Fullmetal Alchemist - Volume 1',
+        'price': 21.49,
+        'image': "https://m.media-amazon.com/images/I/71bHV97PPmL.jpg",
+        'description': "Edward and Alphonse Elric break the laws of alchemy in a failed experiment to bring back their mother. Losing their bodies, they set out on a dangerous journey to find the Philosopher’s Stone and reclaim what they lost, facing powerful enemies."
+    },
+    {
+        'id': 10,
+        'name': 'Bleach - Volume 1',
+        'price': 19.49,
+        'image': "https://m.media-amazon.com/images/I/61aSap+A1iL._AC_UF1000,1000_QL80_.jpg",
+        'description': "Ichigo Kurosaki, an ordinary teen, gains Soul Reaper powers to protect the living from evil spirits called Hollows. As he fights stronger enemies, he unravels hidden truths about the Soul Society and his own mysterious past."
     }
-
-
 ]
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

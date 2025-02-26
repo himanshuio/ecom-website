@@ -4,9 +4,33 @@ venv/
 # Ignore environment variables file
 .env
 
+# Ignore instance folder (Flask-specific, used for configs & DB)
+instance/
+
 # Ignore Python bytecode files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Ignore log files
 *.log
+
+# Ignore database files (if using SQLite)
+*.sqlite3
+*.db
+
+# Ignore compiled Cython files
+*.c
+*.so
+
+# Ignore VS Code settings (if using VS Code)
+.vscode/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore deployment-specific files
+*.tar.gz
+*.zip
+*.bak
