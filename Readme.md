@@ -55,7 +55,7 @@ This project can be viewed here: **[ShopHouse on Render](https://shophouse-xh8n.
 ![Login Page](img/h.png)
 
 ### 🏠 Home Page
-![Home Page](img/hdetails.png)
+![Home Page](img/home.png)
 
 ### 🛒 Product Detail Page
 ![Product Detail](img/hdetails.png)
