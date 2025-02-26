@@ -36,7 +36,6 @@ SQLALCHEMY_DATABASE_URI='your_database_url_here'
 ```sh
 flask run
 ```
-The website will be available at **http://127.0.0.1:5000/**.
 
 ## How to Modify Database and Environment Variables
 ### 🔒 **Modifying Environment Variables**
