@@ -52,13 +52,13 @@ This project can be viewed here: **[ShopHouse on Render](https://shophouse-xh8n.
 
 ## Screenshots
 ### 🔑 Login Page
-![Login Page](D:\webapp2\h.png)
+![Login Page](img/h.png)
 
 ### 🏠 Home Page
-![Home Page](D:\webapp2\hdetails.png)
+![Home Page](img/hdetails.png)
 
 ### 🛒 Product Detail Page
-![Product Detail](D:\webapp2\hdetails.png)
+![Product Detail](img/hdetails.png)
 
 ## License
 This project is licensed under the MIT License.
